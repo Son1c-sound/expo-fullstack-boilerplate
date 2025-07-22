@@ -3,8 +3,11 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
-
+import { SuperwallProvider } from "expo-superwall"
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { ConvexProvider, ConvexReactClient } from "convex/react";
+
+const convex = new ConvexReactClient("https://cautious-guanaco-154.convex.cloud")
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -18,12 +21,16 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <ConvexProvider client={convex}>
+    <SuperwallProvider apiKeys={{ ios: "YOUR_SUPERWALL_API_KEY", android: "pk_722d4d8b7a1a8fc99596baa5b04f3d9f96f74c3358be1adb" }}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </SuperwallProvider>
+    </ConvexProvider>
   );
 }
