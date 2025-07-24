@@ -45,7 +45,7 @@ export default function TabLayout() {
       />
     </Tabs>
     </SignedIn>
-      <SignedOut>
+    <SignedOut>
         <Redirect href="/(auth)/sign-in" />
       </SignedOut>
     </>
